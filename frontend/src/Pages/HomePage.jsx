@@ -46,7 +46,9 @@ export default function HomePage() {
   const filteredProblem = Problem.filter((problem)=>{
    const difficultyMatch = Filter.difficulty === 'all' || problem.difficulty === Filter.difficulty;
    const tagMatch = Filter.tag === 'all' || problem.tags === Filter.tag;
-   const statusmatch = Filter.status === 'all' || problem.some((sp)=>sp._id === problem._id);
+    const statusmatch =
+      Filter.status === 'all' ||
+      SolvedProblem.some((sp) => sp._id === problem._id);
    return difficultyMatch && tagMatch  && statusmatch;
   })
   console.log(filteredProblem);
@@ -159,7 +161,8 @@ export default function HomePage() {
   );
 }
 const getDifficultyBadgeColor = (difficulty) => {
-  switch (difficulty.toLowerCase()) {
+  const d = (difficulty || "").toLowerCase();
+  switch (d) {
     case "easy":
       return "badge-success";
     case "medium":
