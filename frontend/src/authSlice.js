@@ -8,9 +8,13 @@ export const registerUser = createAsyncThunk(
       const response = await axiosClient.post("/user/register", userData);
       return response.data.user;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(
+        error.response?.data?.error ||
+          error.response?.data?.message ||
+          "Registration failed",
+      );
     }
-  }
+  },
 );
 
 export const loginUser = createAsyncThunk(
@@ -26,8 +30,7 @@ export const loginUser = createAsyncThunk(
           "Login failed",
       );
     }
-
-  }
+  },
 );
 
 export const checkAuth = createAsyncThunk(
@@ -42,7 +45,7 @@ export const checkAuth = createAsyncThunk(
       }
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const logoutUser = createAsyncThunk(
@@ -54,7 +57,7 @@ export const logoutUser = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 const authSlice = createSlice({
