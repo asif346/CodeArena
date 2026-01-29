@@ -10,6 +10,7 @@ const {
   deleteProblem,
   getProblemById,
   getAllProblem,
+  submittedProblem,
   solvedAllProblemByUser,
 } = userProblem;
 
@@ -20,10 +21,12 @@ problemRouter.put('/update/:id',AdminMiddleware,updateProblem);
 // delete
 problemRouter.delete('/delete/:id',AdminMiddleware,deleteProblem);
 
-
+//fetch
 problemRouter.get('/ProblemById/:id',userMiddleware,getProblemById);
 problemRouter.get('/getAllProblem/',userMiddleware,getAllProblem);
 problemRouter.get('/problemSolvedByUser',userMiddleware,solvedAllProblemByUser);
-// fetch
+problemRouter.get('/submittedProblem/:id',userMiddleware,submittedProblem);
+
+
 
 export default problemRouter;
