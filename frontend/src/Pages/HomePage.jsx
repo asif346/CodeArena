@@ -28,7 +28,7 @@ export default function HomePage() {
     const fetchSolvedProblem = async ()=>{
       try{
         const { data } = await axiosClient.get(
-          "/problem/solvedAllProblemByUser"
+          "/problem/problemSolvedByUser"
         );
         setSolvedProblem(data);
       }
@@ -59,7 +59,7 @@ export default function HomePage() {
       <nav className="navbar bg-base-100 shadow-lg px-4">
         <div className="flex-1">
           <NavLink to="/" className="btn btn-ghost text-lg">
-            Leetcode
+            CodeArena
           </NavLink>
         </div>
         <div className="flex-none gap-4">
