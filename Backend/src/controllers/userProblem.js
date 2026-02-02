@@ -1,5 +1,6 @@
 import Problem from "../models/problem.js";
 import Submission from "../models/submission.js";
+import User from "../models/user.js";
 import {
   getLanguageById,
   submitBatch,
@@ -90,7 +91,7 @@ const updateProblem = async (req, res) => {
 
     // Validate reference solution
     for (const { language, completecode } of referenceSolution) {
-      const LanguageId = getLanguageById(language);
+      const LanguageId = getLanguageById(language)
 
       const submissions = visibletestcases.map((testcase) => ({
         source_code: completecode,
@@ -189,25 +190,44 @@ const getAllProblem = async (req, res) => {
   }
 };
 
-const solvedAllProblemByUser = async (req, res) => {
-  try {
-    const count = req.result.problemSolved.length;
-    res.status(200).send(count);
-  } catch (err) {
-    res.status(500).send("Internal Server Error " + err);
-  }
-};
+// const solvedAllProblemByUser = async (req, res) => {
+//   try {
+//     const count = req.result.problemSolved.length;
+//     res.status(200).send(count);
+//   } catch (err) {
+//     res.status(500).send("Internal Server Error " + err);
+//   }
+// };
+const solvedAllProblemByUser =  async(req,res)=>{
+   
+    try{
+       
+      const userId = req.result._id;
+
+      const user =  await User.findById(userId).populate({
+        path:"problemSolved",
+        select:"_id title difficulty tags"
+      });
+      
+      res.status(200).send(user.problemSolved);
+
+    }
+    catch(err){
+      res.status(500).send("Server Error");
+    }
+}
 const submittedProblem = async (req, res) => {
   try {
     const userId = req.result._id;
     const problemId = req.params.pid;
-
-    const ans = await Submission.find(userId, problemId);
-
+    // return res.send(userId);
+  const ans = await Submission.find({userId:userId, problemId:problemId});
+    
     if (ans.length == 0) {
-      res.status(200).send("No Submission is present");
+      return res.status(200).send([]);
     }
-    res.status(200).send(ans);
+
+    return res.status(200).send(ans);
   } catch (err) {
     res.status(500).send("internal server error");
   }
