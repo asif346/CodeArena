@@ -22,7 +22,6 @@ A full-stack coding platform inspired by LeetCode, built with React on the front
 - Media: Cloudinary
 
 ## Project Structure
-
 Leetcode_clone/
 ├── Backend/
 │   ├── src/
